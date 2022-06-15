@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MyPlaceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,19 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return view('welcome');
+    return 'Hello';
 });
 
-Route::get('/hello/world',
-    [\App\Http\Controllers\HelloworldController::class, 'HelloWorld']
-) -> name ("hello");
+Route::get('/mypage', [MyPlaceController::class, 'index']);
+//Route::get('/mypage', 'MyPlaceController@index');
 
-Route::get('/hello/world/{world_id}',
-    function ($world_id) {
-        return " editing world $world_id";
-    }
-);
-
-Route::get('/hell/o/world/{id}',
-    [\App\Http\Controllers\HelloworldController::class, 'GetWorld']
-)->where("id","[0-9]+"); // 404 error if id is not an integer

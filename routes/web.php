@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MyPlaceController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,17 @@ Route::get('/', function () {
     return 'Hello';
 });
 
-Route::get('/mypage', [MyPlaceController::class, 'index']);
-//Route::get('/mypage', 'MyPlaceController@index');
+//Create
+Route::get('/posts/create', [PostController::class, 'create']);
+//Read
+Route::get('/posts', [PostController::class, 'index']);
+//Update
+Route::get('/posts/update', [PostController::class, 'update']);
+//Delete
+Route::get('/posts/delete', [PostController::class, 'delete']);
+
+//FirstOrCreate
+Route::get('/posts/first_or_create', [PostController::class, 'firstOrCreate']);
+//UpdateOrCreate
+Route::get('/posts/update_or_create', [PostController::class, 'updateOrCreate']);
 

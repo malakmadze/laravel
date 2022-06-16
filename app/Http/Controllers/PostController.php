@@ -10,46 +10,49 @@ class PostController extends Controller
     #Read
     public function index (){
         $posts = Post::all();
-        return view('posts',compact('posts'));
+        return view('post.index',compact('posts'));
     }
 
     #Create
     public function create(){
-        $postsArr = [
-            [
-                'title' => 'title of post from phpstorm',
-                'content' => 'some interesting content',
-                'image' => 'imageexample.jpg',
-                'likes' => '20',
-                'is_published' => '1',
-            ],
-            [
-                'title' => 'another title of post from phpstorm',
-                'content' => 'another some interesting content',
-                'image' => 'anotherimageexample.jpg',
-                'likes' => '50',
-                'is_published' => '1',
-            ],
-        ];
-        foreach ($postsArr as $item) {
-            Post::create($item);
-        }
-        dd('created');
+        return view('post.create');
     }
-
-    #Update
-    public function update (){
-        $post = Post::find(6);
-        $post->update([
-            'title' => 'update',
-            'content' => 'update',
-            'image' => 'update',
-            'likes' => 111,
-            'is_published' => 1,
+    public function store(){
+        $data = request()->validate([
+            'title'=>'string',
+            'content'=>'string',
+            'image'=>'string'
         ]);
-        dd('updated');
+       Post::create ($data);
+       return redirect()->route('post.index');
     }
 
+    public function show(Post $post){
+        return view('post.show', compact('post'));
+    }
+//    public function show($id){
+//        $post = Post::findOrFail($id);
+//        dd($post->title);
+//    }
+
+
+    public function edit(Post $post){
+        return view('post.edit', compact('post'));
+    }
+    #Update
+    public function update (Post $post){
+        $data = request()->validate([
+            'title'=>'string',
+            'content'=>'string',
+            'image'=>'string'
+        ]);
+       $post->update($data);
+        return redirect()->route('post.show', $post->id);
+    }
+    public function destroy(Post $post){
+        $post->delete();
+        return redirect()->route('post.index');
+    }
     #Delete
     public function delete(){
         $post = Post::find(2);
